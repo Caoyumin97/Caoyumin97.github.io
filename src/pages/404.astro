@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Yumin Cao">
+  <div class="container not-found">
+    <h1 class="not-found-code">404</h1>
+    <p class="not-found-msg">This page wandered off into the void.</p>
+    <a href="/" class="not-found-link">Take me home</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+  }
+
+  .not-found-code {
+    font-size: 6rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-papers), var(--accent-projects));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .not-found-msg {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
+
+  .not-found-link {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--accent-about);
+    border: 1px solid rgba(125, 211, 252, 0.3);
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .not-found-link:hover {
+    background: rgba(125, 211, 252, 0.08);
+  }
+</style>

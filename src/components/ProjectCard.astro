@@ -1,0 +1,87 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tech: string[];
+  github?: string;
+  demo?: string;
+}
+
+const { title, description, tech, github, demo } = Astro.props;
+---
+
+<article class="project-card card-glow" data-tilt>
+  <h3 class="project-title">{title}</h3>
+  <p class="project-desc">{description}</p>
+  <div class="project-tech">
+    {tech.map(t => (
+      <span class="tech-tag">{t}</span>
+    ))}
+  </div>
+  <div class="project-links">
+    {github && <a href={github} target="_blank" rel="noopener" class="project-link">GitHub</a>}
+    {demo && <a href={demo} target="_blank" rel="noopener" class="project-link">Demo</a>}
+  </div>
+</article>
+
+<style>
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-card);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .project-card:hover {
+    border-color: rgba(110, 231, 183, 0.2);
+    box-shadow: 0 0 30px rgba(110, 231, 183, 0.05);
+  }
+
+  .project-title {
+    font-size: 1.25rem;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .project-tech {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--accent-projects);
+    background: rgba(110, 231, 183, 0.08);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-projects);
+    border: 1px solid rgba(110, 231, 183, 0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .project-link:hover {
+    background: rgba(110, 231, 183, 0.1);
+  }
+</style>

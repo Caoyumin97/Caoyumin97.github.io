@@ -1,0 +1,30 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PaperCard from '../components/PaperCard.astro';
+import { getCollection } from 'astro:content';
+
+const papers = (await getCollection('papers')).sort((a, b) => b.data.year - a.data.year);
+---
+
+<PageLayout title="Papers — Yumin Cao" pageTitle="Papers">
+  <div class="papers-list stagger">
+    {papers.map(paper => (
+      <PaperCard
+        title={paper.data.title}
+        authors={paper.data.authors}
+        venue={paper.data.venue}
+        year={paper.data.year}
+        abstract={paper.data.abstract}
+        links={paper.data.links}
+      />
+    ))}
+  </div>
+</PageLayout>
+
+<style>
+  .papers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+</style>

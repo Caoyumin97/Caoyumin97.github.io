@@ -1,0 +1,152 @@
+---
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/papers', label: 'Papers' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/life', label: 'Life' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<nav class="navbar">
+  <div class="navbar-inner container">
+    <a href="/" class="navbar-logo">YC</a>
+    <button class="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+    <ul class="navbar-links">
+      {links.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['nav-link', { active: currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href)) }]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 15, 26, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .navbar-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    letter-spacing: -0.02em;
+  }
+
+  .navbar-links {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+  }
+
+  .nav-link {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--text-heading);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-link.active {
+    color: var(--text-heading);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .hamburger {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    left: 0;
+    transition: transform 0.3s;
+  }
+
+  .hamburger::before { top: -6px; }
+  .hamburger::after { top: 6px; }
+
+  @media (max-width: 768px) {
+    .navbar-toggle {
+      display: block;
+    }
+
+    .navbar-links {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: rgba(15, 15, 26, 0.95);
+      backdrop-filter: blur(12px);
+      flex-direction: column;
+      padding: 16px;
+      border-radius: 0 0 12px 12px;
+      border: 1px solid var(--card-border);
+      border-top: none;
+    }
+
+    .navbar-links.open {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toggle = document.querySelector('.navbar-toggle');
+    const links = document.querySelector('.navbar-links');
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        links.classList.toggle('open');
+      });
+    }
+  });
+</script>

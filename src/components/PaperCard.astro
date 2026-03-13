@@ -1,0 +1,135 @@
+---
+interface Props {
+  title: string;
+  authors: string[];
+  venue: string;
+  year: number;
+  abstract?: string;
+  links?: {
+    pdf?: string;
+    arxiv?: string;
+    code?: string;
+    slides?: string;
+  };
+}
+
+const { title, authors, venue, year, abstract, links } = Astro.props;
+---
+
+<article class="paper-card reveal">
+  <div class="paper-venue">
+    <span class="venue-badge">{venue}</span>
+    <span class="venue-year">{year}</span>
+  </div>
+  <h3 class="paper-title">{title}</h3>
+  <p class="paper-authors">
+    {authors.map((author, i) => (
+      <>
+        <span class:list={{ 'author-self': author === 'Yumin Cao' }}>{author}</span>
+        {i < authors.length - 1 && ', '}
+      </>
+    ))}
+  </p>
+  {abstract && (
+    <details class="paper-abstract">
+      <summary>Abstract</summary>
+      <p>{abstract}</p>
+    </details>
+  )}
+  {links && (
+    <div class="paper-links">
+      {links.pdf && <a href={links.pdf} target="_blank" rel="noopener" class="paper-link">PDF</a>}
+      {links.arxiv && <a href={links.arxiv} target="_blank" rel="noopener" class="paper-link">arXiv</a>}
+      {links.code && <a href={links.code} target="_blank" rel="noopener" class="paper-link">Code</a>}
+      {links.slides && <a href={links.slides} target="_blank" rel="noopener" class="paper-link">Slides</a>}
+    </div>
+  )}
+</article>
+
+<style>
+  .paper-card {
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-card);
+    padding: 24px;
+    transition: border-color 0.3s;
+  }
+
+  .paper-card:hover {
+    border-color: rgba(167, 139, 250, 0.2);
+  }
+
+  .paper-venue {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .venue-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-papers);
+    background: rgba(167, 139, 250, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .venue-year {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .paper-title {
+    font-size: 1.125rem;
+    margin-bottom: 6px;
+  }
+
+  .paper-authors {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .author-self {
+    color: var(--accent-papers);
+    font-weight: 600;
+  }
+
+  .paper-abstract {
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+  }
+
+  .paper-abstract summary {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    margin-bottom: 6px;
+  }
+
+  .paper-abstract p {
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .paper-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .paper-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-papers);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .paper-link:hover {
+    background: rgba(167, 139, 250, 0.1);
+  }
+</style>

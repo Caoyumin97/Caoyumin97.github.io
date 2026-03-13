@@ -1,0 +1,54 @@
+---
+import nowData from '../data/now.json';
+---
+
+<div class="now-playing">
+  {nowData.working_on && (
+    <p class="now-item">
+      <span class="now-label">Working on</span>
+      <span class="now-value">{nowData.working_on}</span>
+    </p>
+  )}
+  {nowData.reading && (
+    <p class="now-item">
+      <span class="now-label">Reading</span>
+      <span class="now-value">{nowData.reading}</span>
+    </p>
+  )}
+  {nowData.listening && (
+    <p class="now-item">
+      <span class="now-label">Listening to</span>
+      <span class="now-value">{nowData.listening}</span>
+    </p>
+  )}
+</div>
+
+<style>
+  .now-playing {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 16px;
+  }
+
+  .now-item {
+    font-size: 0.8125rem;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .now-label {
+    color: var(--text-muted);
+    font-size: 0.6875rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .now-value {
+    color: var(--text-primary);
+  }
+</style>

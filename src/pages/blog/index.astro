@@ -1,0 +1,80 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<PageLayout title="Blog — Yumin Cao" pageTitle="Blog">
+  <div class="posts-list stagger">
+    {posts.map(post => (
+      <a href={`/blog/${post.id}`} class="post-preview reveal">
+        <time class="preview-date">{post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+        <h3 class="preview-title">{post.data.title}</h3>
+        <p class="preview-excerpt">{post.data.excerpt}</p>
+        {post.data.tags.length > 0 && (
+          <div class="preview-tags">
+            {post.data.tags.map(tag => (
+              <span class="preview-tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </a>
+    ))}
+  </div>
+</PageLayout>
+
+<style>
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .post-preview {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-card);
+    padding: 24px;
+    transition: border-color 0.3s;
+  }
+
+  .post-preview:hover {
+    border-color: rgba(251, 191, 36, 0.2);
+  }
+
+  .preview-date {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-blog);
+  }
+
+  .preview-title {
+    font-size: 1.25rem;
+    margin-top: 4px;
+    margin-bottom: 6px;
+  }
+
+  .preview-excerpt {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .preview-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .preview-tag {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+</style>

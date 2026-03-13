@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  pageTitle?: string;
+}
+
+const { title, description, pageTitle } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container page">
+    {pageTitle && <h1 class="page-title">{pageTitle}</h1>}
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    margin-bottom: 32px;
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  date: Date;
+  tags: string[];
+}
+
+const { title, date, tags } = Astro.props;
+const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+---
+
+<BaseLayout title={`${title} — Yumin Cao`}>
+  <article class="container post">
+    <header class="post-header">
+      <time class="post-date" datetime={date.toISOString()}>{formattedDate}</time>
+      <h1 class="post-title">{title}</h1>
+      {tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map(tag => (
+            <span class="post-tag">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+    <div class="post-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-top: 48px;
+    padding-bottom: 48px;
+    max-width: 720px;
+  }
+
+  .post-header {
+    margin-bottom: 40px;
+  }
+
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--accent-blog);
+  }
+
+  .post-title {
+    font-size: 2.25rem;
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 6px;
+  }
+
+  .post-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--accent-blog);
+    background: rgba(251, 191, 36, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .post-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .post-content :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 40px;
+    margin-bottom: 16px;
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 16px;
+  }
+
+  .post-content :global(pre) {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-inner);
+    padding: 16px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+
+  .post-content :global(code) {
+    font-size: 0.875rem;
+  }
+
+  .post-content :global(a) {
+    color: var(--accent-blog);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 3px solid var(--accent-blog);
+    padding-left: 16px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+</style>

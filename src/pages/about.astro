@@ -1,0 +1,133 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Timeline from '../components/Timeline.astro';
+
+const experience = [
+  {
+    role: 'Your Role',
+    company: 'Company Name',
+    period: '2024 — Present',
+    description: 'Description of what you do here.',
+  },
+];
+---
+
+<PageLayout title="About — Yumin Cao" pageTitle="About">
+  <section class="about-bio reveal">
+    <p>
+      Hi, I'm Yumin. I'm a researcher and builder with interests spanning across
+      machine learning, software engineering, photography, music, and the outdoors.
+    </p>
+    <p>
+      This site is my little corner of the internet where I share what I'm working on
+      and thinking about. Feel free to look around and reach out.
+    </p>
+  </section>
+
+  <section class="about-section">
+    <h2 class="about-heading">Experience</h2>
+    <Timeline entries={experience} />
+  </section>
+
+  <section class="about-section reveal">
+    <h2 class="about-heading">Education</h2>
+    <div class="education-list">
+      <div class="edu-entry">
+        <h3 class="edu-degree">Your Degree</h3>
+        <p class="edu-school">University Name</p>
+        <time class="edu-period">20XX — 20XX</time>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section reveal">
+    <h2 class="about-heading">Skills & Interests</h2>
+    <div class="skills-grid">
+      <span class="skill-tag">Machine Learning</span>
+      <span class="skill-tag">TypeScript</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Systems Design</span>
+    </div>
+  </section>
+
+  <section class="about-section reveal">
+    <h2 class="about-heading">Get in Touch</h2>
+    <p class="about-contact">
+      Email me at <a href="mailto:yumin@example.com" class="link-fancy">yumin@example.com</a> or find me on
+      <a href="https://github.com/Caoyumin97" target="_blank" rel="noopener" class="link-fancy">GitHub</a>.
+    </p>
+  </section>
+</PageLayout>
+
+<style>
+  .about-bio {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+
+  .about-bio p {
+    margin-bottom: 16px;
+  }
+
+  .about-section {
+    margin-bottom: 48px;
+  }
+
+  .about-heading {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    color: var(--accent-about);
+  }
+
+  .about-contact {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  .about-contact a {
+    color: var(--accent-about);
+  }
+
+  .education-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .edu-degree {
+    font-size: 1.125rem;
+    margin-bottom: 2px;
+  }
+
+  .edu-school {
+    font-size: 0.9375rem;
+    color: var(--accent-about);
+  }
+
+  .edu-period {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+  }
+
+  .skills-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .skill-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--accent-about);
+    background: rgba(125, 211, 252, 0.08);
+    border: 1px solid rgba(125, 211, 252, 0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+</style>

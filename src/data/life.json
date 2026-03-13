@@ -1,0 +1,8 @@
+{
+  "music": [
+    { "title": "OK Computer", "artist": "Radiohead", "type": "album" }
+  ],
+  "outdoors": [
+    { "title": "Mountain Trail", "description": "A weekend hike through the hills.", "date": "2026-02-15" }
+  ]
+}

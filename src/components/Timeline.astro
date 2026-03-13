@@ -1,0 +1,90 @@
+---
+interface TimelineEntry {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+}
+
+interface Props {
+  entries: TimelineEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<div class="timeline">
+  {entries.map(entry => (
+    <div class="timeline-entry reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-role">{entry.role}</h3>
+        <p class="timeline-company">{entry.company}</p>
+        <time class="timeline-period">{entry.period}</time>
+        <p class="timeline-desc">{entry.description}</p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: var(--card-border);
+  }
+
+  .timeline-entry {
+    position: relative;
+    margin-bottom: 32px;
+  }
+
+  .timeline-entry:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--accent-about);
+    border: 2px solid var(--bg-primary);
+  }
+
+  .timeline-role {
+    font-size: 1.125rem;
+    margin-bottom: 2px;
+  }
+
+  .timeline-company {
+    font-size: 0.9375rem;
+    color: var(--accent-about);
+  }
+
+  .timeline-period {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+
+  .timeline-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+</style>

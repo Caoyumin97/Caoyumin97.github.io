@@ -1,0 +1,148 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import lifeData from '../data/life.json';
+import photosData from '../data/photos.json';
+---
+
+<PageLayout title="Life — Yumin Cao" pageTitle="Life">
+  <section class="life-section reveal">
+    <h2 class="section-heading">Photography</h2>
+    {photosData.gallery.length > 0 ? (
+      <div class="photo-grid">
+        {photosData.gallery.map(photo => (
+          <div class="photo-item">
+            <img src={`/photos/${photo.src}`} alt={photo.alt} loading="lazy" />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="empty-note">Photos coming soon.</p>
+    )}
+  </section>
+
+  <section class="life-section reveal">
+    <h2 class="section-heading">Music / Art</h2>
+    <div class="music-grid">
+      {lifeData.music.map(item => (
+        <div class="music-card">
+          <span class="music-type">{item.type}</span>
+          <h3 class="music-title">{item.title}</h3>
+          <p class="music-artist">{item.artist}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="life-section reveal">
+    <h2 class="section-heading">Outdoors</h2>
+    <div class="outdoors-list">
+      {lifeData.outdoors.map(item => (
+        <div class="outdoors-card">
+          <h3 class="outdoors-title">{item.title}</h3>
+          <p class="outdoors-desc">{item.description}</p>
+          <time class="outdoors-date">{item.date}</time>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .life-section {
+    margin-bottom: 56px;
+  }
+
+  .section-heading {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--accent-life);
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+  }
+
+  .photo-item {
+    border-radius: var(--border-radius-inner);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--bg-card);
+  }
+
+  .photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .music-card {
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-card);
+    padding: 20px;
+  }
+
+  .music-type {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-life);
+  }
+
+  .music-title {
+    font-size: 1rem;
+    margin-top: 4px;
+  }
+
+  .music-artist {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .outdoors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .outdoors-card {
+    background: var(--bg-card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-card);
+    padding: 20px;
+  }
+
+  .outdoors-title {
+    font-size: 1.125rem;
+    margin-bottom: 4px;
+  }
+
+  .outdoors-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .outdoors-date {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  .empty-note {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,215 @@
+---
+import BentoTile from './BentoTile.astro';
+import NowPlaying from './NowPlaying.astro';
+import { getCollection } from 'astro:content';
+
+const allPapers = (await getCollection('papers')).sort((a, b) => b.data.year - a.data.year);
+const allProjects = await getCollection('projects');
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const latestPaper = allPapers[0];
+const featuredProject = allProjects.find(p => p.data.featured) || allProjects[0];
+const latestPost = allPosts[0];
+---
+
+<section class="bento-grid stagger">
+  <BentoTile area="hero" class="hero-tile">
+    <div class="hero-content">
+      <h1 class="hero-name">Yumin Cao</h1>
+      <p class="hero-tagline" id="hero-tagline">researcher / builder / explorer</p>
+      <div class="hero-social">
+        <a href="https://github.com/Caoyumin97" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener" aria-label="Google Scholar">Scholar</a>
+      </div>
+      <NowPlaying />
+    </div>
+  </BentoTile>
+
+  <BentoTile href="/papers" area="papers" accent="var(--accent-papers)">
+    <span class="tile-label">Papers</span>
+    {latestPaper ? (
+      <>
+        <span class="tile-title">{latestPaper.data.title}</span>
+        <span class="tile-desc">{latestPaper.data.venue} {latestPaper.data.year}</span>
+      </>
+    ) : (
+      <span class="tile-desc">Coming soon</span>
+    )}
+  </BentoTile>
+
+  <BentoTile href="/projects" area="projects" accent="var(--accent-projects)">
+    <span class="tile-label">Projects</span>
+    {featuredProject ? (
+      <>
+        <span class="tile-title">{featuredProject.data.title}</span>
+        <span class="tile-desc">{featuredProject.data.description}</span>
+      </>
+    ) : (
+      <span class="tile-desc">Coming soon</span>
+    )}
+  </BentoTile>
+
+  <BentoTile href="/blog" area="blog" accent="var(--accent-blog)">
+    <span class="tile-label">Blog</span>
+    {latestPost ? (
+      <>
+        <span class="tile-title">{latestPost.data.title}</span>
+        <span class="tile-desc">{latestPost.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+      </>
+    ) : (
+      <span class="tile-desc">Coming soon</span>
+    )}
+  </BentoTile>
+
+  <BentoTile area="photo" class="photo-tile">
+    <span class="tile-label">Photo</span>
+    <div class="photo-placeholder">
+      <span class="tile-desc">Featured photo goes here</span>
+    </div>
+  </BentoTile>
+
+  <BentoTile href="/life" area="music" accent="var(--accent-life)">
+    <span class="tile-label">Music / Art</span>
+    <span class="tile-desc">What I'm into lately</span>
+  </BentoTile>
+
+  <BentoTile href="/life" area="outdoors" accent="var(--accent-life)">
+    <span class="tile-label">Outdoors</span>
+    <span class="tile-desc">Recent adventures</span>
+  </BentoTile>
+
+  <BentoTile href="/about" area="about" accent="var(--accent-about)">
+    <span class="tile-label">About</span>
+    <span class="tile-title">More about me</span>
+  </BentoTile>
+</section>
+
+<style>
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "hero    papers   projects"
+      "blog    photo    photo"
+      "music   outdoors about";
+    gap: var(--grid-gap);
+    padding: 32px 0;
+  }
+
+  .hero-tile {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(15, 15, 26, 0.6) 50%, rgba(110, 231, 183, 0.05) 100%);
+    background-size: 200% 200%;
+    animation: hero-gradient 8s ease infinite;
+  }
+
+  @keyframes hero-gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .hero-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .hero-tagline {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    transition: opacity 0.4s ease;
+  }
+
+  .hero-social {
+    display: flex;
+    gap: 12px;
+  }
+
+  .hero-social a {
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+    transition: color 0.2s;
+  }
+
+  .hero-social a:hover {
+    color: var(--text-heading);
+  }
+
+  .photo-tile {
+    min-height: 180px;
+  }
+
+  .photo-placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-inner);
+    background: rgba(255, 255, 255, 0.02);
+    margin-top: 8px;
+  }
+
+  @media (max-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "hero     hero"
+        "papers   projects"
+        "blog     photo"
+        "music    outdoors"
+        "about    about";
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "hero"
+        "papers"
+        "projects"
+        "blog"
+        "photo"
+        "music"
+        "outdoors"
+        "about";
+    }
+
+    .hero-name {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const taglines = [
+      'researcher / builder / explorer',
+      'curious about everything',
+      'turning ideas into code',
+      'somewhere between academia and startups',
+    ];
+    let index = 0;
+    const el = document.getElementById('hero-tagline');
+    if (!el) return;
+
+    setInterval(() => {
+      el.style.opacity = '0';
+      setTimeout(() => {
+        index = (index + 1) % taglines.length;
+        el.textContent = taglines[index];
+        el.style.opacity = '1';
+      }, 400);
+    }, 4000);
+  });
+</script>
