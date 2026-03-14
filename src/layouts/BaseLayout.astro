@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import NavBar from '../components/NavBar.astro';
 import Footer from '../components/Footer.astro';
+import BlobBackground from '../components/BlobBackground.astro';
 import '../styles/global.css';
 import '../styles/animations.css';
 
@@ -25,12 +26,17 @@ const { title, description = 'Personal website of Yumin Cao — researcher, buil
     <meta property="og:url" content={Astro.url.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      const theme = localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
     <ClientRouter />
-    <script src="../scripts/hover-tilt.ts"></script>
     <script src="../scripts/scroll-reveal.ts"></script>
     <script src="../scripts/easter-eggs.ts"></script>
   </head>
   <body>
+    <BlobBackground />
     <NavBar />
     <main>
       <slot />

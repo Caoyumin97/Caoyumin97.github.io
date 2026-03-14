@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
+
 const currentPath = Astro.url.pathname;
 
 const links = [
@@ -14,9 +16,6 @@ const links = [
 <nav class="navbar">
   <div class="navbar-inner container">
     <a href="/" class="navbar-logo">YC</a>
-    <button class="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span class="hamburger"></span>
-    </button>
     <ul class="navbar-links">
       {links.map(link => (
         <li>
@@ -29,6 +28,10 @@ const links = [
         </li>
       ))}
     </ul>
+    <ThemeToggle />
+    <button class="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
   </div>
 </nav>
 
@@ -37,7 +40,7 @@ const links = [
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(15, 15, 26, 0.8);
+    background: var(--navbar-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--card-border);
@@ -61,6 +64,9 @@ const links = [
     display: flex;
     list-style: none;
     gap: 8px;
+    flex: 1;
+    justify-content: flex-end;
+    margin-right: 8px;
   }
 
   .nav-link {
@@ -73,12 +79,12 @@ const links = [
 
   .nav-link:hover {
     color: var(--text-heading);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(128, 128, 128, 0.1);
   }
 
   .nav-link.active {
     color: var(--text-heading);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(128, 128, 128, 0.12);
   }
 
   .navbar-toggle {
@@ -122,13 +128,17 @@ const links = [
       position: absolute;
       top: 60px;
       right: 0;
-      background: rgba(15, 15, 26, 0.95);
+      background: var(--navbar-bg);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       flex-direction: column;
       padding: 16px;
       border-radius: 0 0 12px 12px;
       border: 1px solid var(--card-border);
       border-top: none;
+      margin-right: 0;
+      flex: unset;
+      justify-content: unset;
     }
 
     .navbar-links.open {
