@@ -1,13 +1,13 @@
 /* Scroll reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px) scale(0.98);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* Staggered entrance for card grids */
@@ -51,12 +51,3 @@
   width: 100%;
 }
 
-/* Card glow on hover */
-.card-glow {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-glow:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
-}
