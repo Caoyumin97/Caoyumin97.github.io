@@ -27,9 +27,18 @@ const { title, description = 'Personal website of Yumin Cao — researcher, buil
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <script is:inline>
-      const theme = localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-      document.documentElement.setAttribute('data-theme', theme);
+      (function() {
+        function getTheme() {
+          return localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        }
+        // Apply immediately on initial load (prevents FOUC)
+        document.documentElement.setAttribute('data-theme', getTheme());
+        // Re-apply after Astro swaps the DOM on client-side navigation
+        document.addEventListener('astro:after-swap', function() {
+          document.documentElement.setAttribute('data-theme', getTheme());
+        });
+      })();
     </script>
     <ClientRouter />
     <script src="../scripts/scroll-reveal.ts"></script>
