@@ -1,10 +1,242 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BentoGrid from '../components/BentoGrid.astro';
+import HomeSection from '../components/HomeSection.astro';
+import GlassCard from '../components/GlassCard.astro';
+import NowPlaying from '../components/NowPlaying.astro';
+import { getCollection } from 'astro:content';
+
+const allPapers = (await getCollection('papers'))
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3);
+
+const allProjects = (await getCollection('projects'))
+  .filter(p => p.data.featured);
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const latestPost = allPosts[0];
 ---
 
 <BaseLayout title="Yumin Cao">
   <div class="container">
-    <BentoGrid />
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="hero-name">
+        <span class="word" style="animation-delay: 0s">Yumin</span>
+        <span class="word" style="animation-delay: 0.1s">Cao</span>
+      </h1>
+      <p id="hero-tagline" class="hero-tagline">researcher / builder / explorer</p>
+      <div class="hero-gradient-line"></div>
+      <div class="hero-social">
+        <a href="https://github.com/Caoyumin97" target="_blank" rel="noopener" class="social-pill">GitHub</a>
+        <a href="https://scholar.google.com/citations?user=2hOjd60AAAAJ" target="_blank" rel="noopener" class="social-pill">Scholar</a>
+        <a href="mailto:yumin@example.com" class="social-pill">Email</a>
+      </div>
+      <NowPlaying />
+    </section>
+
+    <!-- Papers -->
+    <HomeSection label="Papers" accent="var(--accent-papers)" href="/papers">
+      <div class="cards-list">
+        {allPapers.length > 0 ? allPapers.map(paper => (
+          <GlassCard accent="var(--accent-papers)" href="/papers">
+            <p class="card-title">{paper.data.title}</p>
+            <p class="card-meta">{paper.data.venue} · {paper.data.year}</p>
+          </GlassCard>
+        )) : (
+          <GlassCard accent="var(--accent-papers)">
+            <p class="card-meta">Coming soon...</p>
+          </GlassCard>
+        )}
+      </div>
+    </HomeSection>
+
+    <!-- Projects -->
+    <HomeSection label="Projects" accent="var(--accent-projects)" href="/projects">
+      <div class="cards-grid">
+        {allProjects.length > 0 ? allProjects.map(project => (
+          <GlassCard accent="var(--accent-projects)" href="/projects">
+            <p class="card-title">{project.data.title}</p>
+            <p class="card-meta">{project.data.description}</p>
+          </GlassCard>
+        )) : (
+          <GlassCard accent="var(--accent-projects)">
+            <p class="card-meta">Coming soon...</p>
+          </GlassCard>
+        )}
+      </div>
+    </HomeSection>
+
+    <!-- Blog + Life -->
+    <div class="two-col">
+      <HomeSection label="Blog" accent="var(--accent-blog)" href="/blog">
+        {latestPost ? (
+          <GlassCard accent="var(--accent-blog)" href={`/blog/${latestPost.id}`}>
+            <p class="card-title">{latestPost.data.title}</p>
+            <p class="card-meta">{latestPost.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+          </GlassCard>
+        ) : (
+          <GlassCard accent="var(--accent-blog)">
+            <p class="card-meta">Coming soon...</p>
+          </GlassCard>
+        )}
+      </HomeSection>
+
+      <HomeSection label="Life" accent="var(--accent-life)" href="/life">
+        <GlassCard accent="var(--accent-life)">
+          <p class="card-meta">Coming soon...</p>
+        </GlassCard>
+      </HomeSection>
+    </div>
+
   </div>
 </BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding-top: 80px;
+    padding-bottom: 64px;
+  }
+
+  .hero-name {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    color: var(--text-heading);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 0.3em;
+    flex-wrap: wrap;
+  }
+
+  .word {
+    display: inline-block;
+    opacity: 0;
+    animation: word-reveal 0.6s ease forwards;
+  }
+
+  @keyframes word-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-tagline {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    transition: opacity 0.4s ease;
+  }
+
+  .hero-gradient-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #a78bfa, #6ee7b7);
+    margin: 16px auto;
+    border-radius: 2px;
+  }
+
+  .hero-social {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .social-pill {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    padding: 6px 14px;
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .social-pill:hover {
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Card content */
+  .card-title {
+    font-weight: 600;
+    color: var(--text-heading);
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .card-meta {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Layout helpers */
+  .cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const taglines = [
+    'researcher / builder / explorer',
+    'cities · code · cameras',
+    'making sense of movement',
+  ];
+  let idx = 0;
+
+  function rotateTags() {
+    const el = document.getElementById('hero-tagline');
+    if (!el) return;
+    el.style.opacity = '0';
+    setTimeout(() => {
+      idx = (idx + 1) % taglines.length;
+      el.textContent = taglines[idx];
+      el.style.opacity = '1';
+      setTimeout(rotateTags, 4000);
+    }, 400);
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    idx = 0;
+    setTimeout(rotateTags, 4000);
+  });
+</script>
