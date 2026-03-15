@@ -48,7 +48,7 @@ const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'nu
   }
 
   .post-title {
-    font-size: 2.25rem;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
     margin-top: 8px;
     margin-bottom: 12px;
   }
@@ -62,7 +62,7 @@ const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'nu
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     color: var(--accent-blog);
-    background: rgba(251, 191, 36, 0.1);
+    background: color-mix(in srgb, var(--accent-blog) 12%, transparent);
     padding: 2px 8px;
     border-radius: 4px;
   }
@@ -89,7 +89,7 @@ const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'nu
   }
 
   .post-content :global(pre) {
-    background: rgba(0, 0, 0, 0.3);
+    background: color-mix(in srgb, var(--bg-primary) 70%, black);
     border: 1px solid var(--card-border);
     border-radius: var(--border-radius-inner);
     padding: 16px;

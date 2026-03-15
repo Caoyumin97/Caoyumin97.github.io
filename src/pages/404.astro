@@ -40,13 +40,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-family: var(--font-mono);
     font-size: 0.875rem;
     color: var(--accent-about);
-    border: 1px solid rgba(125, 211, 252, 0.3);
+    border: 1px solid color-mix(in srgb, var(--accent-about) 35%, transparent);
     padding: 8px 20px;
     border-radius: 8px;
     transition: background 0.2s;
   }
 
   .not-found-link:hover {
-    background: rgba(125, 211, 252, 0.08);
+    background: color-mix(in srgb, var(--accent-about) 10%, transparent);
   }
 </style>
