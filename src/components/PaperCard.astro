@@ -48,15 +48,17 @@ const { title, authors, venue, year, abstract, links } = Astro.props;
 
 <style>
   .paper-card {
-    background: var(--bg-card);
+    background: var(--card-blur-bg, var(--bg-card));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--card-border);
-    border-radius: var(--border-radius-card);
+    border-radius: 16px;
     padding: 24px;
     transition: border-color 0.3s;
   }
 
   .paper-card:hover {
-    border-color: rgba(167, 139, 250, 0.2);
+    border-color: color-mix(in srgb, var(--accent-papers) 30%, transparent);
   }
 
   .paper-venue {
@@ -70,7 +72,7 @@ const { title, authors, venue, year, abstract, links } = Astro.props;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--accent-papers);
-    background: rgba(167, 139, 250, 0.1);
+    background: color-mix(in srgb, var(--accent-papers) 12%, transparent);
     padding: 2px 8px;
     border-radius: 4px;
   }
@@ -123,13 +125,13 @@ const { title, authors, venue, year, abstract, links } = Astro.props;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--accent-papers);
-    border: 1px solid rgba(167, 139, 250, 0.2);
+    border: 1px solid color-mix(in srgb, var(--accent-papers) 25%, transparent);
     padding: 4px 10px;
     border-radius: 6px;
     transition: background 0.2s;
   }
 
   .paper-link:hover {
-    background: rgba(167, 139, 250, 0.1);
+    background: color-mix(in srgb, var(--accent-papers) 12%, transparent);
   }
 </style>
