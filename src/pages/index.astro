@@ -5,9 +5,11 @@ import GlassCard from '../components/GlassCard.astro';
 import NowPlaying from '../components/NowPlaying.astro';
 import { getCollection } from 'astro:content';
 
-const allPapers = (await getCollection('papers'))
-  .sort((a, b) => b.data.year - a.data.year)
-  .slice(0, 3);
+const allPapersRaw = await getCollection('papers');
+const featured = allPapersRaw.filter(p => p.data.featured).sort((a, b) => b.data.year - a.data.year);
+const allPapers = featured.length > 0
+  ? featured.slice(0, 3)
+  : allPapersRaw.sort((a, b) => b.data.year - a.data.year).slice(0, 3);
 
 const allProjects = (await getCollection('projects'))
   .filter(p => p.data.featured);
@@ -140,7 +142,7 @@ const latestPost = allPosts[0];
   .hero-gradient-line {
     width: 40px;
     height: 2px;
-    background: linear-gradient(90deg, #a78bfa, #6ee7b7);
+    background: linear-gradient(90deg, var(--accent-papers), var(--accent-projects));
     margin: 16px auto;
     border-radius: 2px;
   }
@@ -166,7 +168,7 @@ const latestPost = allPosts[0];
 
   .social-pill:hover {
     color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: color-mix(in srgb, var(--text-primary) 25%, transparent);
   }
 
   /* Card content */
@@ -222,21 +224,23 @@ const latestPost = allPosts[0];
     'making sense of movement',
   ];
   let idx = 0;
+  let tagTimeout: ReturnType<typeof setTimeout>;
 
   function rotateTags() {
     const el = document.getElementById('hero-tagline');
     if (!el) return;
     el.style.opacity = '0';
-    setTimeout(() => {
+    tagTimeout = setTimeout(() => {
       idx = (idx + 1) % taglines.length;
       el.textContent = taglines[idx];
       el.style.opacity = '1';
-      setTimeout(rotateTags, 4000);
+      tagTimeout = setTimeout(rotateTags, 4000);
     }, 400);
   }
 
   document.addEventListener('astro:page-load', () => {
+    clearTimeout(tagTimeout);
     idx = 0;
-    setTimeout(rotateTags, 4000);
+    tagTimeout = setTimeout(rotateTags, 4000);
   });
 </script>
