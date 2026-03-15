@@ -1,0 +1,62 @@
+---
+interface Props {
+  label: string;
+  accent: string;
+  href: string;
+}
+
+const { label, accent, href } = Astro.props;
+---
+
+<section class="home-section reveal" style={`--section-accent: ${accent};`}>
+  <div class="section-header">
+    <span class="section-label">{label}</span>
+    <div class="section-divider"></div>
+    <a href={href} class="section-view-all">View all →</a>
+  </div>
+  <div class="section-content">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .home-section {
+    margin-bottom: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--section-accent);
+    white-space: nowrap;
+  }
+
+  .section-divider {
+    flex: 1;
+    height: 1px;
+    background-color: var(--section-accent);
+    opacity: 0.15;
+  }
+
+  .section-view-all {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .section-view-all:hover {
+    color: var(--text-primary);
+  }
+</style>
