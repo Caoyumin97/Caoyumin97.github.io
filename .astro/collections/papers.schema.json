@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "venue": {
+      "type": "string"
+    },
+    "year": {
+      "type": "number"
+    },
+    "abstract": {
+      "type": "string"
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "pdf": {
+          "type": "string"
+        },
+        "arxiv": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "slides": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "featured": {
+      "default": false,
+      "type": "boolean"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "authors",
+    "venue",
+    "year",
+    "featured"
+  ],
+  "additionalProperties": false
+}
