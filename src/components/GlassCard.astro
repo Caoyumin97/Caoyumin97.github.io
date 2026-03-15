@@ -1,0 +1,42 @@
+---
+interface Props {
+  href?: string;
+  accent?: string;
+  class?: string;
+}
+
+const { href, accent, class: className } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  href={href}
+  class:list={['glass-card', className]}
+  style={accent ? `--tile-accent: ${accent};` : undefined}
+>
+  <slot />
+</Tag>
+
+<style>
+  .glass-card {
+    background: var(--card-blur-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border-color: color-mix(in srgb, var(--tile-accent, white) 25%, transparent);
+  }
+
+  a.glass-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+</style>
