@@ -112,8 +112,12 @@ body {
 /* Chinese typography adjustments */
 html[data-lang="zh"] body {
   font-family: var(--font-body-zh);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   line-height: 1.9;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 html[data-lang="zh"] h1,
@@ -124,7 +128,31 @@ html[data-lang="zh"] h5,
 html[data-lang="zh"] h6 {
   font-family: var(--font-heading-zh);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+html[data-lang="zh"] h1 {
+  line-height: 1.35;
+}
+
+html[data-lang="zh"] h2 {
+  line-height: 1.4;
+}
+
+html[data-lang="zh"] h3 {
+  line-height: 1.45;
+}
+
+html[data-lang="zh"] p {
+  text-indent: 0;
+  margin-bottom: 1.2em;
+}
+
+html[data-lang="zh"] blockquote {
+  font-style: normal;
+  border-left: 3px solid var(--accent-blog);
+  padding-left: 1em;
 }
 
 /* Keep mono font for code regardless of language */
@@ -132,6 +160,7 @@ html[data-lang="zh"] code,
 html[data-lang="zh"] pre {
   font-family: var(--font-mono);
   letter-spacing: 0;
+  text-align: left;
 }
 
 h1 {
