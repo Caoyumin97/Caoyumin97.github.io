@@ -42,6 +42,14 @@
       "default": false,
       "type": "boolean"
     },
+    "lang": {
+      "default": "en",
+      "type": "string",
+      "enum": [
+        "en",
+        "zh"
+      ]
+    },
     "$schema": {
       "type": "string"
     }
@@ -51,7 +59,8 @@
     "authors",
     "venue",
     "year",
-    "featured"
+    "featured",
+    "lang"
   ],
   "additionalProperties": false
 }

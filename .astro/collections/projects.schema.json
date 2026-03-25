@@ -25,6 +25,14 @@
       "default": false,
       "type": "boolean"
     },
+    "lang": {
+      "default": "en",
+      "type": "string",
+      "enum": [
+        "en",
+        "zh"
+      ]
+    },
     "$schema": {
       "type": "string"
     }
@@ -33,7 +41,8 @@
     "title",
     "description",
     "tech",
-    "featured"
+    "featured",
+    "lang"
   ],
   "additionalProperties": false
 }

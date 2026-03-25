@@ -1,8 +1,15 @@
 {
   "music": [
-    { "title": "OK Computer", "artist": "Radiohead", "type": "album" }
+    { "title": "OK Computer", "artist": "Radiohead", "type": "album" },
+    { "title": "Random Access Memories", "artist": "Daft Punk", "type": "album" },
+    { "title": "Erta", "artist": "Jambinai", "type": "album" },
+    { "title": "The Dark Side of the Moon", "artist": "Pink Floyd", "type": "album" },
+    { "title": "In Rainbows", "artist": "Radiohead", "type": "album" }
   ],
   "outdoors": [
-    { "title": "Mountain Trail", "description": "A weekend hike through the hills.", "date": "2026-02-15" }
+    { "title": "Huangshan Summit", "description": "Caught sunrise above the sea of clouds. The 4 AM alarm was worth it.", "date": "2025-10-12" },
+    { "title": "Moganshan Trail Run", "description": "25 km through bamboo forests. Legs stopped cooperating at km 20.", "date": "2025-11-23" },
+    { "title": "West Lake Night Walk", "description": "Hangzhou in winter. The lake is better without the crowds.", "date": "2026-01-08" },
+    { "title": "Qiandao Lake Cycling", "description": "80 km loop around Thousand Island Lake. Beautiful but my saddle had opinions.", "date": "2026-02-15" }
   ]
 }
