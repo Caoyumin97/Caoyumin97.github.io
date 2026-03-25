@@ -1,13 +1,47 @@
 ---
+import { background } from '../config/site';
 ---
 
+{background.image && <div class="bg-image-container"></div>}
 <div class="blob-container">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
 </div>
 
-<style>
+<style
+  define:vars={{
+    'bg-img': background.image ? `url('${background.image}')` : 'none',
+    'bg-size': background.size,
+    'bg-pos': background.position,
+    'bg-overlay-dark': String(background.overlay.dark),
+    'bg-overlay-light': String(background.overlay.light),
+  }}
+>
+  .bg-image-container {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: var(--bg-img);
+    background-size: var(--bg-size);
+    background-position: var(--bg-pos);
+    background-repeat: no-repeat;
+  }
+
+  /* Semi-transparent overlay so theme colors blend with the image */
+  .bg-image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg-primary);
+    opacity: var(--bg-overlay-dark);
+    transition: opacity 0.3s ease, background 0.3s ease;
+  }
+
+  [data-theme="light"] .bg-image-container::after {
+    opacity: var(--bg-overlay-light);
+  }
+
   .blob-container {
     position: fixed;
     inset: 0;

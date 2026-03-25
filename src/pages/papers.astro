@@ -6,7 +6,16 @@ import { getCollection } from 'astro:content';
 const papers = (await getCollection('papers')).sort((a, b) => b.data.year - a.data.year);
 ---
 
-<PageLayout title="Papers — Yumin Cao" pageTitle="Papers">
+<PageLayout title="Papers — Yumin Cao" pageTitle="Papers" pageTitleZh="论文">
+  <p class="papers-intro lang-en">
+    My research background is in transportation and urban computing — using ML to understand
+    how people and goods flow through cities. These days I apply that systems-thinking foundation
+    to AI agent architectures at Xiaomi. The papers below are from the earlier chapter.
+  </p>
+  <p class="papers-intro lang-zh">
+    我的研究背景是交通与城市计算——用机器学习理解人和货物如何在城市中流动。
+    如今我将这些系统性思维应用于小米的 AI Agent 架构。以下论文来自更早的研究阶段。
+  </p>
   <div class="papers-list stagger">
     {papers.map(paper => (
       <PaperCard
@@ -22,6 +31,14 @@ const papers = (await getCollection('papers')).sort((a, b) => b.data.year - a.da
 </PageLayout>
 
 <style>
+  .papers-intro {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
   .papers-list {
     display: flex;
     flex-direction: column;

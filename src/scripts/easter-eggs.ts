@@ -11,7 +11,7 @@ function initEasterEggs() {
     if (e.code === konamiSequence[konamiIndex]) {
       konamiIndex++;
       if (konamiIndex === konamiSequence.length) {
-        triggerConfetti();
+        triggerAgentTakeover();
         konamiIndex = 0;
       }
     } else {
@@ -40,44 +40,51 @@ function initEasterEggs() {
   }
 }
 
-function triggerConfetti() {
-  const count = 60;
-  const container = document.createElement('div');
-  container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
-  document.body.appendChild(container);
+function triggerAgentTakeover() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,15,26,0.95);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;cursor:pointer;';
 
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement('div');
-    const size = Math.random() * 8 + 4;
-    const x = Math.random() * 100;
-    const delay = Math.random() * 0.5;
-    const duration = Math.random() * 1.5 + 1.5;
-    const colors = ['#a78bfa', '#6ee7b7', '#fbbf24', '#fb7185', '#7dd3fc'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
+  const terminal = document.createElement('div');
+  terminal.style.cssText = 'font-family:"Fira Code","SF Mono",monospace;color:#6ee7b7;font-size:14px;max-width:480px;padding:24px;line-height:1.8;';
 
-    star.style.cssText = `
-      position:absolute;top:-${size}px;left:${x}%;
-      width:${size}px;height:${size}px;
-      background:${color};border-radius:50%;
-      animation:confetti-fall ${duration}s ${delay}s ease-in forwards;
-      opacity:0.9;
-    `;
-    container.appendChild(star);
+  const lines = [
+    '> agent session initiated',
+    '> scanning website...',
+    '> found: 1 human, 0 bugs (suspicious)',
+    '> analyzing blog posts...',
+    '> opinion detected: "agents should do things"',
+    '> agreed.',
+    '> reviewing code quality...',
+    '> built with agents. of course it was.',
+    '> ',
+    '> conclusion: this website is agent-approved.',
+    '> ',
+    '> [click anywhere to return control to the human]',
+  ];
+
+  let lineIdx = 0;
+  function typeLine() {
+    if (lineIdx >= lines.length) return;
+    const p = document.createElement('p');
+    p.style.cssText = 'margin:0;opacity:0;transition:opacity 0.3s;';
+    p.textContent = lines[lineIdx];
+    terminal.appendChild(p);
+    requestAnimationFrame(() => { p.style.opacity = '1'; });
+    lineIdx++;
+    if (lineIdx < lines.length) {
+      setTimeout(typeLine, 400 + Math.random() * 300);
+    }
   }
 
-  if (!document.querySelector('#confetti-style')) {
-    const style = document.createElement('style');
-    style.id = 'confetti-style';
-    style.textContent = `
-      @keyframes confetti-fall {
-        0% { transform: translateY(0) rotate(0deg); opacity: 0.9; }
-        100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-  }
+  overlay.appendChild(terminal);
+  document.body.appendChild(overlay);
+  typeLine();
 
-  setTimeout(() => container.remove(), 3500);
+  overlay.addEventListener('click', () => {
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.3s';
+    setTimeout(() => overlay.remove(), 300);
+  });
 }
 
 document.addEventListener('astro:page-load', initEasterEggs);

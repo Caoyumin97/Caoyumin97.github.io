@@ -5,14 +5,19 @@ interface Props {
   title: string;
   description?: string;
   pageTitle?: string;
+  pageTitleZh?: string;
 }
 
-const { title, description, pageTitle } = Astro.props;
+const { title, description, pageTitle, pageTitleZh } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container page">
-    {pageTitle && <h1 class="page-title">{pageTitle}</h1>}
+    {pageTitle && (
+      <h1 class="page-title">
+        <span class="lang-en">{pageTitle}</span>{pageTitleZh && <span class="lang-zh">{pageTitleZh}</span>}
+      </h1>
+    )}
     <slot />
   </div>
 </BaseLayout>

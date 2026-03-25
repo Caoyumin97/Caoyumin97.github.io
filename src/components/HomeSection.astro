@@ -1,18 +1,21 @@
 ---
 interface Props {
   label: string;
+  labelZh?: string;
   accent: string;
   href: string;
 }
 
-const { label, accent, href } = Astro.props;
+const { label, labelZh, accent, href } = Astro.props;
 ---
 
 <section class="home-section reveal" style={`--section-accent: ${accent};`}>
   <div class="section-header">
-    <span class="section-label">{label}</span>
+    <span class="section-label">
+      <span class="lang-en">{label}</span>{labelZh && <span class="lang-zh">{labelZh}</span>}
+    </span>
     <div class="section-divider"></div>
-    <a href={href} class="section-view-all">View all →</a>
+    <a href={href} class="section-view-all"><span class="lang-en">View all →</span><span class="lang-zh">查看全部 →</span></a>
   </div>
   <div class="section-content">
     <slot />

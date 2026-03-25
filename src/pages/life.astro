@@ -4,9 +4,16 @@ import lifeData from '../data/life.json';
 import photosData from '../data/photos.json';
 ---
 
-<PageLayout title="Life — Yumin Cao" pageTitle="Life">
+<PageLayout title="Life — Yumin Cao" pageTitle="Life" pageTitleZh="生活">
+  <p class="life-intro lang-en">
+    Not everything is about agents and APIs. Sometimes the best algorithm is "go outside."
+  </p>
+  <p class="life-intro lang-zh">
+    不是所有事情都和 Agent 与 API 有关。有时候最好的算法是"出门走走"。
+  </p>
+
   <section class="life-section reveal">
-    <h2 class="section-heading">Photography</h2>
+    <h2 class="section-heading"><span class="lang-en">Photography</span><span class="lang-zh">摄影</span></h2>
     {photosData.gallery.length > 0 ? (
       <div class="photo-grid">
         {photosData.gallery.map(photo => (
@@ -16,12 +23,15 @@ import photosData from '../data/photos.json';
         ))}
       </div>
     ) : (
-      <p class="empty-note">Photos coming soon.</p>
+      <p class="empty-note">
+        <span class="lang-en">Photos are still trapped on hard drives. Working on a liberation plan.</span>
+        <span class="lang-zh">照片还困在硬盘里。解救计划制定中。</span>
+      </p>
     )}
   </section>
 
   <section class="life-section reveal">
-    <h2 class="section-heading">Music / Art</h2>
+    <h2 class="section-heading"><span class="lang-en">Music</span><span class="lang-zh">音乐</span></h2>
     <div class="music-grid">
       {lifeData.music.map(item => (
         <div class="music-card">
@@ -34,7 +44,7 @@ import photosData from '../data/photos.json';
   </section>
 
   <section class="life-section reveal">
-    <h2 class="section-heading">Outdoors</h2>
+    <h2 class="section-heading"><span class="lang-en">Outdoors</span><span class="lang-zh">户外</span></h2>
     <div class="outdoors-list">
       {lifeData.outdoors.map(item => (
         <div class="outdoors-card">
@@ -48,6 +58,15 @@ import photosData from '../data/photos.json';
 </PageLayout>
 
 <style>
+  .life-intro {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+
   .life-section {
     margin-bottom: 56px;
   }

@@ -32,7 +32,7 @@ const { title, authors, venue, year, abstract, links } = Astro.props;
   </p>
   {abstract && (
     <details class="paper-abstract">
-      <summary>Abstract</summary>
+      <summary><span class="lang-en">Abstract</span><span class="lang-zh">摘要</span></summary>
       <p>{abstract}</p>
     </details>
   )}

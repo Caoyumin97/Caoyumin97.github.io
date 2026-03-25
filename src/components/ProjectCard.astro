@@ -1,26 +1,34 @@
 ---
 interface Props {
   title: string;
+  titleZh?: string;
   description: string;
+  descriptionZh?: string;
   tech: string[];
   github?: string;
   demo?: string;
 }
 
-const { title, description, tech, github, demo } = Astro.props;
+const { title, titleZh, description, descriptionZh, tech, github, demo } = Astro.props;
 ---
 
 <article class="project-card">
-  <h3 class="project-title">{title}</h3>
-  <p class="project-desc">{description}</p>
+  <h3 class="project-title">
+    <span class="lang-en">{title}</span>
+    {titleZh && <span class="lang-zh">{titleZh}</span>}
+  </h3>
+  <p class="project-desc">
+    <span class="lang-en">{description}</span>
+    {descriptionZh && <span class="lang-zh">{descriptionZh}</span>}
+  </p>
   <div class="project-tech">
     {tech.map(t => (
       <span class="tech-tag">{t}</span>
     ))}
   </div>
   <div class="project-links">
-    {github && <a href={github} target="_blank" rel="noopener" class="project-link">GitHub</a>}
-    {demo && <a href={demo} target="_blank" rel="noopener" class="project-link">Demo</a>}
+    {github && <a href={github} target="_blank" rel="noopener" class="project-link"><span class="lang-en">GitHub</span><span class="lang-zh">源码</span></a>}
+    {demo && <a href={demo} target="_blank" rel="noopener" class="project-link"><span class="lang-en">Demo</span><span class="lang-zh">演示</span></a>}
   </div>
 </article>
 

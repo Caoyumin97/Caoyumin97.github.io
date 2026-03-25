@@ -1,27 +1,66 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import { getCollection } from 'astro:content';
+import { pairByLang } from '../../utils/i18n';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const posts = (await getCollection('blog', ({ data }) => !data.draft));
+const pairs = pairByLang(posts);
+
+// Sort pairs by date (use whichever version exists)
+const sortedPairs = [...pairs.entries()]
+  .map(([key, pair]) => ({ key, ...pair }))
+  .sort((a, b) => {
+    const dateA = (a.en ?? a.zh)!.data.date.getTime();
+    const dateB = (b.en ?? b.zh)!.data.date.getTime();
+    return dateB - dateA;
+  });
+
+const fmtEn = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+const fmtZh = (d: Date) => d.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<PageLayout title="Blog — Yumin Cao" pageTitle="Blog">
+<PageLayout title="Blog — Yumin Cao" pageTitle="Blog" pageTitleZh="博客">
   <div class="posts-list stagger">
-    {posts.map(post => (
-      <a href={`/blog/${post.id}`} class="post-preview reveal">
-        <time class="preview-date">{post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</time>
-        <h3 class="preview-title">{post.data.title}</h3>
-        <p class="preview-excerpt">{post.data.excerpt}</p>
-        {post.data.tags.length > 0 && (
+    {sortedPairs.map(({ key, en, zh }) => {
+      const primary = en ?? zh!;
+      const date = primary.data.date;
+      const updated = primary.data.updated;
+      return (
+        <a href={`/blog/${key}`} class="post-preview reveal">
+          <time class="preview-date">
+            <span class="lang-en">{fmtEn(date)}</span>
+            <span class="lang-zh">{fmtZh(date)}</span>
+          </time>
+          {updated && (
+            <span class="preview-updated">（<span class="lang-en">updated {fmtEn(updated)}</span><span class="lang-zh">更新于 {fmtZh(updated)}</span>）</span>
+          )}
+          <h3 class="preview-title">
+            <span class="lang-en">{en?.data.title ?? primary.data.title}</span>
+            {zh && <span class="lang-zh">{zh.data.title}</span>}
+          </h3>
+          <p class="preview-excerpt">
+            <span class="lang-en">{en?.data.excerpt ?? primary.data.excerpt}</span>
+            {zh && <span class="lang-zh">{zh.data.excerpt}</span>}
+          </p>
           <div class="preview-tags">
-            {post.data.tags.map(tag => (
-              <span class="preview-tag">{tag}</span>
-            ))}
+            {en && en.data.tags.length > 0 && (
+              <span class="lang-en">
+                {en.data.tags.map(tag => (
+                  <span class="preview-tag">{tag}</span>
+                ))}
+              </span>
+            )}
+            {zh && zh.data.tags.length > 0 && (
+              <span class="lang-zh">
+                {zh.data.tags.map(tag => (
+                  <span class="preview-tag">{tag}</span>
+                ))}
+              </span>
+            )}
           </div>
-        )}
-      </a>
-    ))}
+        </a>
+      );
+    })}
   </div>
 </PageLayout>
 
@@ -49,6 +88,13 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     font-family: var(--font-mono);
     font-size: 0.75rem;
     color: var(--accent-blog);
+  }
+
+  .preview-updated {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-left: 4px;
   }
 
   .preview-title {

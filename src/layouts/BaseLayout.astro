@@ -11,11 +11,11 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Personal website of Yumin Cao — researcher, builder, explorer.' } = Astro.props;
+const { title, description = 'Yumin Cao — AI agent engineer at Xiaomi. Building agents, writing about what that means. | 曹宇旻 — 小米 AI Agent 工程师' } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,6 +25,12 @@ const { title, description = 'Personal website of Yumin Cao — researcher, buil
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- English: Fraunces (headings) + Literata (body) + Fira Code (code) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Chinese: Noto Serif SC 思源宋体 (classic serif for scholarly feel) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
     <script is:inline>
       (function() {
@@ -32,12 +38,19 @@ const { title, description = 'Personal website of Yumin Cao — researcher, buil
           return localStorage.getItem('theme') ||
             (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
         }
-        // Apply immediately on initial load (prevents FOUC)
-        document.documentElement.setAttribute('data-theme', getTheme());
-        // Re-apply after Astro swaps the DOM on client-side navigation
-        document.addEventListener('astro:after-swap', function() {
+        function getLang() {
+          return localStorage.getItem('lang') || 'en';
+        }
+        function apply() {
+          var lang = getLang();
           document.documentElement.setAttribute('data-theme', getTheme());
-        });
+          document.documentElement.setAttribute('data-lang', lang);
+          document.documentElement.setAttribute('lang', lang);
+        }
+        // Apply immediately on initial load (prevents FOUC)
+        apply();
+        // Re-apply after Astro swaps the DOM on client-side navigation
+        document.addEventListener('astro:after-swap', apply);
       })();
     </script>
     <ClientRouter />

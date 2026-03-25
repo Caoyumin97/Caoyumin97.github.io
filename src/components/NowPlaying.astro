@@ -5,19 +5,19 @@ import nowData from '../data/now.json';
 <div class="now-playing">
   {nowData.working_on && (
     <p class="now-item">
-      <span class="now-label">Working on</span>
+      <span class="now-label"><span class="lang-en">Working on</span><span class="lang-zh">正在做</span></span>
       <span class="now-value">{nowData.working_on}</span>
     </p>
   )}
   {nowData.reading && (
     <p class="now-item">
-      <span class="now-label">Reading</span>
+      <span class="now-label"><span class="lang-en">Reading</span><span class="lang-zh">正在读</span></span>
       <span class="now-value">{nowData.reading}</span>
     </p>
   )}
   {nowData.listening && (
     <p class="now-item">
-      <span class="now-label">Listening to</span>
+      <span class="now-label"><span class="lang-en">Listening to</span><span class="lang-zh">正在听</span></span>
       <span class="now-value">{nowData.listening}</span>
     </p>
   )}

@@ -5,8 +5,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="404 — Yumin Cao">
   <div class="container not-found">
     <h1 class="not-found-code">404</h1>
-    <p class="not-found-msg">This page wandered off into the void.</p>
-    <a href="/" class="not-found-link">Take me home</a>
+    <p class="not-found-msg">
+      <span class="lang-en">An AI agent confidently assured me this page exists. It does not.</span>
+      <span class="lang-zh">一个 AI Agent 信誓旦旦地说这个页面存在。然而并没有。</span>
+    </p>
+    <p class="not-found-sub">
+      <span class="lang-en">Hallucinations happen to the best of us.</span>
+      <span class="lang-zh">幻觉谁都会有。</span>
+    </p>
+    <a href="/" class="not-found-link">
+      <span class="lang-en">Back to reality</span>
+      <span class="lang-zh">回到现实</span>
+    </a>
   </div>
 </BaseLayout>
 
@@ -31,8 +41,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .not-found-msg {
     font-size: 1.125rem;
-    color: var(--text-muted);
+    color: var(--text-primary);
     margin-top: 8px;
+    max-width: 420px;
+  }
+
+  .not-found-sub {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 4px;
     margin-bottom: 24px;
   }
 

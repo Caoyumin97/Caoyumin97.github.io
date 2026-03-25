@@ -1,19 +1,32 @@
 ---
 import PostLayout from '../../layouts/PostLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { pairKey, pairByLang } from '../../utils/i18n';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.id },
-    props: { post },
+  const pairs = pairByLang(posts);
+
+  return [...pairs.entries()].map(([key, pair]) => ({
+    params: { slug: key },
+    props: { en: pair.en, zh: pair.zh },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { en, zh } = Astro.props;
+const primary = en ?? zh!;
+const enContent = en ? await render(en) : null;
+const zhContent = zh ? await render(zh) : null;
 ---
 
-<PostLayout title={post.data.title} date={post.data.date} tags={post.data.tags}>
-  <Content />
+<PostLayout
+  title={en?.data.title ?? primary.data.title}
+  titleZh={zh?.data.title}
+  date={primary.data.date}
+  updated={primary.data.updated}
+  tags={en?.data.tags ?? primary.data.tags}
+  tagsZh={zh?.data.tags}
+>
+  {enContent && <div class="lang-en"><enContent.Content /></div>}
+  {zhContent && <div class="lang-zh"><zhContent.Content /></div>}
 </PostLayout>
