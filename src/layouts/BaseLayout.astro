@@ -9,9 +9,14 @@ import '../styles/animations.css';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description = 'Yumin Cao — AI agent engineer at Xiaomi. Building agents, writing about what that means. | 曹宇旻 — 小米 AI Agent 工程师' } = Astro.props;
+const siteUrl = 'https://caoyumin97.github.io';
+const defaultDescription = 'Yumin Cao — AI agent engineer at Xiaomi. Building agents, writing about what that means. | 曹宇旻 — 小米 AI Agent 工程师';
+const { title, description = defaultDescription, ogImage } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = ogImage ? new URL(ogImage, siteUrl).href : undefined;
 ---
 
 <!doctype html>
@@ -20,10 +25,20 @@ const { title, description = 'Yumin Cao — AI agent engineer at Xiaomi. Buildin
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="author" content="Yumin Cao" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:site_name" content="Yumin Cao" />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,6 +47,21 @@ const { title, description = 'Yumin Cao — AI agent engineer at Xiaomi. Buildin
     <!-- Chinese: Noto Serif SC 思源宋体 (classic serif for scholarly feel) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Yumin Cao',
+      alternateName: '曹宇旻',
+      url: siteUrl,
+      author: {
+        '@type': 'Person',
+        name: 'Yumin Cao',
+        alternateName: '曹宇旻',
+        url: siteUrl,
+        jobTitle: 'AI Agent Engineer',
+      },
+      inLanguage: ['en', 'zh-CN'],
+    })} />
     <script is:inline>
       (function() {
         function getTheme() {
