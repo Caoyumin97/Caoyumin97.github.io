@@ -1,0 +1,49 @@
+---
+---
+
+<button class="lang-toggle" aria-label="Switch language">
+  <span class="lang-en">中</span>
+  <span class="lang-zh">EN</span>
+</button>
+
+<style>
+  .lang-toggle {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .lang-toggle:hover {
+    color: var(--text-heading);
+    background: rgba(128, 128, 128, 0.1);
+    border-color: rgba(128, 128, 128, 0.3);
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toggle = document.querySelector('.lang-toggle');
+    if (!toggle) return;
+
+    toggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const currentLang = html.getAttribute('data-lang') || 'en';
+      const nextLang = currentLang === 'en' ? 'zh' : 'en';
+
+      html.setAttribute('data-lang', nextLang);
+      localStorage.setItem('lang', nextLang);
+    });
+  });
+</script>
