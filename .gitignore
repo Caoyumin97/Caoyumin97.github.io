@@ -3,3 +3,11 @@ dist/
 .astro/
 .superpowers/
 .DS_Store
+
+# Design review screenshots
+*-review.png
+*-final.png
+homepage-final.png
+
+# Playwright MCP logs
+.playwright-mcp/
