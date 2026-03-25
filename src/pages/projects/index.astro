@@ -1,0 +1,44 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { pairByLang } from '../../utils/i18n';
+
+const projects = await getCollection('projects');
+const pairs = [...pairByLang(projects).entries()].map(([key, pair]) => ({ key, ...pair }));
+---
+
+<PageLayout title="Projects — Yumin Cao" pageTitle="Projects" pageTitleZh="项目">
+  <div class="projects-grid stagger">
+    {pairs.map(({ key, en, zh }) => {
+      const primary = en ?? zh!;
+      return (
+        <a href={`/projects/${key}`} class="project-link-wrapper reveal">
+          <ProjectCard
+            title={en?.data.title ?? primary.data.title}
+            titleZh={zh?.data.title}
+            description={en?.data.description ?? primary.data.description}
+            descriptionZh={zh?.data.description}
+            tech={primary.data.tech}
+            github={primary.data.github}
+            demo={primary.data.demo}
+          />
+        </a>
+      );
+    })}
+  </div>
+</PageLayout>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .project-link-wrapper {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+</style>

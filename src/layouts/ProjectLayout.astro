@@ -1,0 +1,313 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  titleZh?: string;
+  description: string;
+  descriptionZh?: string;
+  tech: string[];
+  github?: string;
+  demo?: string;
+}
+
+const { title, titleZh, description, descriptionZh, tech, github, demo } = Astro.props;
+---
+
+<BaseLayout title={`${title} — Yumin Cao`}>
+  <article class="container project">
+    <header class="project-header">
+      <h1 class="project-title">
+        <span class="lang-en">{title}</span>
+        {titleZh && <span class="lang-zh">{titleZh}</span>}
+      </h1>
+      <p class="project-desc">
+        <span class="lang-en">{description}</span>
+        {descriptionZh && <span class="lang-zh">{descriptionZh}</span>}
+      </p>
+      <div class="project-meta">
+        <div class="project-tech">
+          {tech.map(t => (
+            <span class="tech-tag">{t}</span>
+          ))}
+        </div>
+        {(github || demo) && (
+          <div class="project-links">
+            {github && <a href={github} target="_blank" rel="noopener" class="project-link"><span class="lang-en">GitHub ↗</span><span class="lang-zh">源码 ↗</span></a>}
+            {demo && <a href={demo} target="_blank" rel="noopener" class="project-link"><span class="lang-en">Demo ↗</span><span class="lang-zh">演示 ↗</span></a>}
+          </div>
+        )}
+      </div>
+    </header>
+    <div class="project-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<script>
+  async function renderMermaid() {
+    const containers = document.querySelectorAll('.mermaid-diagram[data-mermaid]');
+    if (containers.length === 0) return;
+    const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+    const theme = document.documentElement.getAttribute('data-theme');
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: theme === 'light' ? 'neutral' : 'dark',
+      themeVariables: theme === 'light'
+        ? { primaryColor: '#f3f0ff', primaryTextColor: '#374151', lineColor: '#7c3aed' }
+        : { primaryColor: '#1e1b4b', primaryTextColor: '#e8e6e3', lineColor: '#a78bfa' },
+    });
+    for (const el of containers) {
+      const source = el.getAttribute('data-mermaid') || '';
+      const id = `mermaid-${Math.random().toString(36).slice(2, 8)}`;
+      const { svg } = await mermaid.render(id, source);
+      el.innerHTML = svg;
+      el.removeAttribute('data-mermaid');
+    }
+  }
+  document.addEventListener('astro:page-load', renderMermaid);
+</script>
+
+<style>
+  .project {
+    padding-top: 48px;
+    padding-bottom: 48px;
+    max-width: 800px;
+  }
+
+  .project-header {
+    margin-bottom: 40px;
+  }
+
+  .project-title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    margin-bottom: 10px;
+  }
+
+  .project-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .project-tech {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--accent-projects);
+    background: color-mix(in srgb, var(--accent-projects) 10%, transparent);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 8px;
+  }
+
+  .project-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-projects);
+    border: 1px solid color-mix(in srgb, var(--accent-projects) 25%, transparent);
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+
+  .project-link:hover {
+    background: color-mix(in srgb, var(--accent-projects) 12%, transparent);
+  }
+
+  /* Content styles — mirrors PostLayout but with project accent */
+  .project-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  :global(html[data-lang="zh"]) .project-content {
+    line-height: 2;
+    letter-spacing: 0.03em;
+  }
+
+  .project-content :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 48px;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .project-content :global(h3) {
+    font-size: 1.25rem;
+    margin-top: 36px;
+    margin-bottom: 14px;
+  }
+
+  .project-content :global(h4) {
+    font-size: 1.0625rem;
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+
+  .project-content :global(p) {
+    margin-bottom: 20px;
+  }
+
+  .project-content :global(ul),
+  .project-content :global(ol) {
+    margin-bottom: 20px;
+    padding-left: 1.5em;
+  }
+
+  .project-content :global(li) {
+    margin-bottom: 8px;
+    line-height: 1.7;
+  }
+
+  .project-content :global(li > ul),
+  .project-content :global(li > ol) {
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+
+  /* Inline code */
+  .project-content :global(:not(pre) > code) {
+    font-size: 0.85em;
+    background: color-mix(in srgb, var(--accent-projects) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-projects) 15%, transparent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  /* Code blocks */
+  .project-content :global(pre) {
+    background: color-mix(in srgb, var(--bg-primary) 70%, black);
+    border: 1px solid var(--card-border);
+    border-radius: var(--border-radius-inner);
+    padding: 20px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .project-content :global(pre code) {
+    font-size: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    font-weight: 400;
+  }
+
+  /* Links */
+  .project-content :global(a) {
+    color: var(--accent-projects);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent-projects) 40%, transparent);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .project-content :global(a:hover) {
+    text-decoration-color: var(--accent-projects);
+  }
+
+  /* Blockquotes */
+  .project-content :global(blockquote) {
+    border-left: 3px solid var(--accent-projects);
+    padding: 4px 0 4px 20px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .project-content :global(blockquote p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* Horizontal rule */
+  .project-content :global(hr) {
+    border: none;
+    height: 1px;
+    background: var(--card-border);
+    margin: 40px 0;
+  }
+
+  /* Images */
+  .project-content :global(img) {
+    border-radius: var(--border-radius-inner);
+    margin: 28px 0;
+    border: 1px solid var(--card-border);
+  }
+
+  /* Tables */
+  .project-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    font-size: 0.9375rem;
+  }
+
+  .project-content :global(th) {
+    text-align: left;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--card-border);
+    color: var(--text-heading);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-mono);
+  }
+
+  .project-content :global(td) {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .project-content :global(tr:hover td) {
+    background: color-mix(in srgb, var(--accent-projects) 4%, transparent);
+  }
+
+  /* Strong / Bold */
+  .project-content :global(strong) {
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  /* Chinese emphasis: use bold instead of italic */
+  :global(html[data-lang="zh"]) .project-content :global(em) {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--text-heading);
+  }
+
+  /* Mermaid diagram container */
+  .project-content :global(.mermaid-diagram) {
+    margin: 24px 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .project-content :global(.mermaid-diagram svg) {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

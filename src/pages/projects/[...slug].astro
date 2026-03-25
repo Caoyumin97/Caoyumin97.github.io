@@ -1,0 +1,33 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { pairByLang } from '../../utils/i18n';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  const pairs = pairByLang(projects);
+
+  return [...pairs.entries()].map(([key, pair]) => ({
+    params: { slug: key },
+    props: { en: pair.en, zh: pair.zh },
+  }));
+}
+
+const { en, zh } = Astro.props;
+const primary = en ?? zh!;
+const enContent = en ? await render(en) : null;
+const zhContent = zh ? await render(zh) : null;
+---
+
+<ProjectLayout
+  title={en?.data.title ?? primary.data.title}
+  titleZh={zh?.data.title}
+  description={en?.data.description ?? primary.data.description}
+  descriptionZh={zh?.data.description}
+  tech={primary.data.tech}
+  github={primary.data.github}
+  demo={primary.data.demo}
+>
+  {enContent && <div class="lang-en"><enContent.Content /></div>}
+  {zhContent && <div class="lang-zh"><zhContent.Content /></div>}
+</ProjectLayout>
