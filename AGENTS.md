@@ -7,13 +7,20 @@ This repository is an Astro + TypeScript personal website.
 - `src/content/` stores Markdown collections for blog, papers, and projects; schemas live in `src/content.config.ts`.
 - `src/data/` contains JSON data such as `src/data/now.json`.
 - `src/styles/` contains global and animation CSS; `public/` holds static assets (favicons, images).
-- `docs/superpowers/specs/` contains the design spec used to align visual updates.
+- Bilingual posts and projects use paired files: `slug.md` (English) and `slug.zh.md` (Chinese), with `lang` in frontmatter; see `src/utils/i18n.ts`.
 
 ## Build, Test, and Development Commands
 - `npm install` installs dependencies (Node >=22.12.0 required per `package.json`).
 - `npm run dev` starts the local dev server.
 - `npm run build` generates the static site output in `dist/`.
 - `npm run preview` serves the built output for a production-like check.
+
+## Deployment (GitHub Pages)
+- **Production branch:** `master`. Pushes to `master` run [.github/workflows/deploy.yml](.github/workflows/deploy.yml) and deploy via GitHub Actions (not branch `gh-pages`).
+- **Repository:** `Caoyumin97/Caoyumin97.github.io` on GitHub.
+- **Site URL:** `https://caoyumin97.github.io` (must match `site` in [astro.config.mjs](astro.config.mjs)).
+- In the repo: **Settings > Pages**, set **Source** to **GitHub Actions**. If deploy fails with environment protection errors, allow `master` under **Settings > Environments > github-pages > Deployment branches**.
+- To retire the legacy `main` branch: set **Settings > General > Default branch** to `master`, then run `git push origin --delete main`.
 
 ## Coding Style & Naming Conventions
 - Use 2-space indentation in `.ts`, `.astro`, and `.css`; keep formatting consistent within each file.
