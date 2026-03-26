@@ -4,10 +4,9 @@ dist/
 .superpowers/
 .DS_Store
 
-# Design review screenshots
+# Design review screenshots (if re-added locally)
 *-review.png
 *-final.png
-homepage-final.png
 
 # Playwright MCP logs
 .playwright-mcp/
