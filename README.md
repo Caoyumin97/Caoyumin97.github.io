@@ -47,4 +47,5 @@ npm run dev
 | `src/data/` | JSON 数据（如 `now.json`） |
 | `public/` | 静态资源 |
 
-面向协作者的约定见 [AGENTS.md](AGENTS.md)。
+- **维护内容写什么、放哪里：** [CONTRIBUTING.md](CONTRIBUTING.md)
+- **代码风格与仓库约定：** [AGENTS.md](AGENTS.md)
