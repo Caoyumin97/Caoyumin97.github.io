@@ -8,7 +8,7 @@ const projects = await getCollection('projects');
 const pairs = [...pairByLang(projects).entries()].map(([key, pair]) => ({ key, ...pair }));
 ---
 
-<PageLayout title="Projects — Yumin Cao" pageTitle="Projects" pageTitleZh="项目">
+<PageLayout title="Projects — Yumin Cao" pageTitle="Projects" pageTitleZh="项目" accent="var(--accent-projects)">
   <div class="projects-grid stagger">
     {pairs.map(({ key, en, zh }) => {
       const primary = en ?? zh!;

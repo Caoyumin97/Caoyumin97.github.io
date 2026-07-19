@@ -6,17 +6,21 @@ interface Props {
   description?: string;
   pageTitle?: string;
   pageTitleZh?: string;
+  accent?: string;
 }
 
-const { title, description, pageTitle, pageTitleZh } = Astro.props;
+const { title, description, pageTitle, pageTitleZh, accent } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container page">
     {pageTitle && (
-      <h1 class="page-title">
-        <span class="lang-en">{pageTitle}</span>{pageTitleZh && <span class="lang-zh">{pageTitleZh}</span>}
-      </h1>
+      <>
+        <h1 class="page-title">
+          <span class="lang-en">{pageTitle}</span>{pageTitleZh && <span class="lang-zh">{pageTitleZh}</span>}
+        </h1>
+        <div class="page-accent-line" style={accent ? `background: ${accent}` : undefined}></div>
+      </>
     )}
     <slot />
   </div>
@@ -30,6 +34,13 @@ const { title, description, pageTitle, pageTitleZh } = Astro.props;
 
   .page-title {
     font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .page-accent-line {
+    width: 40px;
+    height: 2px;
+    background: var(--accent-color, var(--accent-about));
+    border-radius: 2px;
     margin-bottom: 32px;
   }
 </style>
