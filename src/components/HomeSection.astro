@@ -9,7 +9,7 @@ interface Props {
 const { label, labelZh, accent, href } = Astro.props;
 ---
 
-<section class="home-section reveal" style={`--section-accent: ${accent};`}>
+<section class="home-section" style={`--section-accent: ${accent};`}>
   <div class="section-header">
     <span class="section-label">
       <span class="lang-en">{label}</span>{labelZh && <span class="lang-zh">{labelZh}</span>}

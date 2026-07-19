@@ -5,7 +5,7 @@
 
 export const background = {
   /** Path to background image (relative to /public). Set to '' to disable. */
-  image: '/bg.jpg',
+  image: '',
 
   /** How the image fills the viewport: 'cover' (crop to fill) or 'contain' (fit inside). */
   size: 'cover' as 'cover' | 'contain',

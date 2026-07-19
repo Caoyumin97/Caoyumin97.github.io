@@ -19,14 +19,14 @@ const fmtEn = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 
 const fmtZh = (d: Date) => d.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 
-<PageLayout title="Blog — Yumin Cao" pageTitle="Blog" pageTitleZh="博客">
-  <div class="posts-list stagger">
+<PageLayout title="Blog — Yumin Cao" pageTitle="Blog" pageTitleZh="博客" accent="var(--accent-blog)">
+  <div class="posts-list">
     {sortedPairs.map(({ key, en, zh }) => {
       const primary = en ?? zh!;
       const date = primary.data.date;
       const updated = primary.data.updated;
       return (
-        <a href={`/blog/${key}`} class="post-preview reveal">
+        <a href={`/blog/${key}`} class="post-preview">
           <time class="preview-date">
             <span class="lang-en">{fmtEn(date)}</span>
             <span class="lang-zh">{fmtZh(date)}</span>
