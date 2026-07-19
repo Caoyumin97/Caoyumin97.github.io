@@ -231,8 +231,10 @@ const { title, titleZh, description, descriptionZh, tech, github, demo } = Astro
 
   /* Blockquotes */
   .project-content :global(blockquote) {
-    border-left: 3px solid var(--accent-projects);
-    padding: 4px 0 4px 20px;
+    border: 1px solid color-mix(in srgb, var(--accent-projects) 20%, transparent);
+    border-radius: 8px;
+    padding: 16px 20px;
+    background: color-mix(in srgb, var(--accent-projects) 5%, transparent);
     color: var(--text-muted);
     margin-bottom: 24px;
     font-style: italic;

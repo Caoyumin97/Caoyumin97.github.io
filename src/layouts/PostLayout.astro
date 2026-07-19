@@ -8,9 +8,10 @@ interface Props {
   updated?: Date;
   tags: string[];
   tagsZh?: string[];
+  readingTime?: number;
 }
 
-const { title, titleZh, date, updated, tags, tagsZh } = Astro.props;
+const { title, titleZh, date, updated, tags, tagsZh, readingTime } = Astro.props;
 const fmtEn = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 const fmtZh = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 const formattedDateEn = fmtEn(date);
@@ -20,11 +21,17 @@ const formattedUpdatedZh = updated ? fmtZh(updated) : null;
 ---
 
 <BaseLayout title={`${title} — Yumin Cao`}>
+  <div id="reading-progress" class="reading-progress"></div>
   <article class="container post">
     <header class="post-header">
       <time class="post-date" datetime={date.toISOString()}>
         <span class="lang-en">{formattedDateEn}</span><span class="lang-zh">{formattedDateZh}</span>
       </time>
+      {readingTime && (
+        <span class="post-reading-time">
+          <span class="lang-en">{readingTime} min read</span><span class="lang-zh">{readingTime} 分钟阅读</span>
+        </span>
+      )}
       {formattedUpdatedEn && (
         <span class="post-updated">（<span class="lang-en">updated {formattedUpdatedEn}</span><span class="lang-zh">更新于 {formattedUpdatedZh}</span>）</span>
       )}
@@ -55,6 +62,17 @@ const formattedUpdatedZh = updated ? fmtZh(updated) : null;
   </article>
 </BaseLayout>
 
+<script>
+  window.addEventListener('scroll', () => {
+    const bar = document.getElementById('reading-progress');
+    if (!bar) return;
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    bar.style.width = pct + '%';
+  });
+</script>
+
 <style>
   .post {
     padding-top: 48px;
@@ -77,6 +95,24 @@ const formattedUpdatedZh = updated ? fmtZh(updated) : null;
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-left: 6px;
+  }
+
+  .post-reading-time {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--accent-blog);
+    z-index: 9999;
+    transition: width 0.1s ease-out;
   }
 
   .post-title {
@@ -185,8 +221,10 @@ const formattedUpdatedZh = updated ? fmtZh(updated) : null;
 
   /* Blockquotes */
   .post-content :global(blockquote) {
-    border-left: 3px solid var(--accent-blog);
-    padding: 4px 0 4px 20px;
+    border: 1px solid color-mix(in srgb, var(--accent-blog) 20%, transparent);
+    border-radius: 8px;
+    padding: 16px 20px;
+    background: color-mix(in srgb, var(--accent-blog) 5%, transparent);
     color: var(--text-muted);
     margin-bottom: 24px;
     font-style: italic;

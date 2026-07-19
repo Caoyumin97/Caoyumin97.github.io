@@ -17,6 +17,15 @@ const { en, zh } = Astro.props;
 const primary = en ?? zh!;
 const enContent = en ? await render(en) : null;
 const zhContent = zh ? await render(zh) : null;
+
+function estimateReadingTime(text: string): number {
+  const chineseChars = (text.match(/[一-鿿㐀-䶿豈-﫿]/g) || []).length;
+  const englishText = text.replace(/[一-鿿㐀-䶿豈-﫿]/g, ' ');
+  const englishWords = englishText.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(chineseChars / 300 + englishWords / 200));
+}
+
+const readingTime = estimateReadingTime(primary.body || '');
 ---
 
 <PostLayout
@@ -26,6 +35,7 @@ const zhContent = zh ? await render(zh) : null;
   updated={primary.data.updated}
   tags={en?.data.tags ?? primary.data.tags}
   tagsZh={zh?.data.tags}
+  readingTime={readingTime}
 >
   {enContent && <div class="lang-en"><enContent.Content /></div>}
   {zhContent && <div class="lang-zh"><zhContent.Content /></div>}
