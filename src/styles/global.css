@@ -1,39 +1,40 @@
 /* Dark mode (default) */
 :root,
 [data-theme="dark"] {
-  /* Background */
-  --bg-primary: #0f0f1a;
-  --bg-secondary: #1a1a2e;
-  --bg-card: rgba(255, 255, 255, 0.03);
+  /* Background — cool-tinted neutrals */
+  --bg-primary: oklch(17.4% 0.0227 283.8);
+  --bg-secondary: oklch(22.8% 0.0384 282.9);
+  --bg-card: oklch(100% 0 0 / 0.03);
 
-  /* Text */
-  --text-primary: #e8e6e3;
-  --text-heading: #ffffff;
-  --text-muted: #7c7c9a;
+  /* Text — neutrals with brand-tinted chroma */
+  --text-primary: oklch(92.6% 0.006 283.8);
+  --text-heading: oklch(99.5% 0.003 283.8);
+  --text-muted: oklch(59.7% 0.0454 284.9);
 
   /* Surfaces */
-  --card-border: rgba(255, 255, 255, 0.06);
-  --card-blur-bg: rgba(255, 255, 255, 0.03);
-  --navbar-bg: rgba(15, 15, 26, 0.8);
+  --card-border: oklch(100% 0 0 / 0.06);
+  --card-blur-bg: oklch(100% 0 0 / 0.03);
+  --navbar-bg: oklch(17.4% 0.0227 283.8 / 0.8);
 
-  /* Accent colors by section */
-  --accent-papers: #a78bfa;
-  --accent-projects: #6ee7b7;
-  --accent-blog: #fbbf24;
-  --accent-life: #fb7185;
-  --accent-about: #7dd3fc;
-
-  /* Dim accents (kept for compatibility) */
-  --accent-papers-dim: #6366f1;
-  --accent-projects-dim: #10b981;
-  --accent-blog-dim: #f59e0b;
-  --accent-life-dim: #f43f5e;
-  --accent-about-dim: #0ea5e9;
+  /* Unified accent — navy blue */
+  --accent: oklch(72% 0.11 265);
+  --accent-dim: oklch(58% 0.09 265);
+  /* Compat aliases — all point to unified accent */
+  --accent-papers: var(--accent);
+  --accent-projects: var(--accent);
+  --accent-blog: var(--accent);
+  --accent-life: var(--accent);
+  --accent-about: var(--accent);
+  --accent-papers-dim: var(--accent-dim);
+  --accent-projects-dim: var(--accent-dim);
+  --accent-blog-dim: var(--accent-dim);
+  --accent-life-dim: var(--accent-dim);
+  --accent-about-dim: var(--accent-dim);
 
   /* Surfaces */
   --border-radius-card: 16px;
   --border-radius-inner: 8px;
-  --card-glow: rgba(255, 255, 255, 0.03);
+  --card-glow: oklch(100% 0 0 / 0.03);
 
   /* Typography */
   --font-body: 'Literata', Georgia, 'Times New Roman', serif;
@@ -50,37 +51,38 @@
 
 /* Light mode */
 [data-theme="light"] {
-  /* Background */
-  --bg-primary: #faf8f5;
-  --bg-secondary: #f0ede8;
-  --bg-card: rgba(255, 255, 255, 0.7);
+  /* Background — warm-ish off-white with cool tint */
+  --bg-primary: oklch(98% 0.0045 283.8);
+  --bg-secondary: oklch(94.7% 0.0074 283.8);
+  --bg-card: oklch(100% 0 0 / 0.85);
 
   /* Text */
-  --text-primary: #374151;
-  --text-heading: #111827;
-  --text-muted: #6b7280;
+  --text-primary: oklch(37.3% 0.0306 259.7);
+  --text-heading: oklch(21% 0.0318 264.7);
+  --text-muted: oklch(55.1% 0.0234 264.4);
 
   /* Surfaces */
-  --card-border: rgba(0, 0, 0, 0.06);
-  --card-blur-bg: rgba(255, 255, 255, 0.7);
-  --navbar-bg: rgba(250, 248, 245, 0.8);
+  --card-border: oklch(0% 0 0 / 0.1);
+  --card-blur-bg: oklch(100% 0 0 / 0.85);
+  --navbar-bg: oklch(98% 0.0045 283.8 / 0.8);
 
-  /* Accent colors by section */
-  --accent-papers: #7c3aed;
-  --accent-projects: #059669;
-  --accent-blog: #d97706;
-  --accent-life: #e11d48;
-  --accent-about: #0284c7;
-
-  /* Dim accents (kept for compatibility) */
-  --accent-papers-dim: #6d28d9;
-  --accent-projects-dim: #047857;
-  --accent-blog-dim: #b45309;
-  --accent-life-dim: #be123c;
-  --accent-about-dim: #0369a1;
+  /* Unified accent — navy blue */
+  --accent: oklch(44% 0.13 265);
+  --accent-dim: oklch(38% 0.1 265);
+  /* Compat aliases — all point to unified accent */
+  --accent-papers: var(--accent);
+  --accent-projects: var(--accent);
+  --accent-blog: var(--accent);
+  --accent-life: var(--accent);
+  --accent-about: var(--accent);
+  --accent-papers-dim: var(--accent-dim);
+  --accent-projects-dim: var(--accent-dim);
+  --accent-blog-dim: var(--accent-dim);
+  --accent-life-dim: var(--accent-dim);
+  --accent-about-dim: var(--accent-dim);
 
   /* Card glow */
-  --card-glow: rgba(0, 0, 0, 0.03);
+  --card-glow: oklch(0% 0 0 / 0.03);
 }
 
 *,
@@ -226,4 +228,16 @@ html[data-lang="zh"] .lang-en,
 html:not([data-lang]) .lang-zh,
 html[data-lang="en"] .lang-zh {
   display: none !important;
+}
+
+/* Focus indicators */
+:focus-visible {
+  outline: 2px solid var(--accent-about);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
 }
