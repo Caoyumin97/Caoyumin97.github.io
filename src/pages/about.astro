@@ -5,45 +5,58 @@ import T from '../components/T.astro';
 
 const experience = [
   {
-    role: 'Head of AI Applications',
-    roleZh: 'AI 应用负责人',
+    role: 'Senior Algorithm Engineer',
+    roleZh: '高级算法工程师',
     company: 'Xiaomi — Supply Chain Management',
     companyZh: '小米 — 供应链管理',
-    period: '2024 — Present',
+    period: '2025.01 — Present',
     description: 'Leading the AI applications team in supply chain. Building Agent-based systems that shorten the loop from information to decision to execution — cross-system aggregation, natural-language-to-SQL, automated replenishment, and human-Agent hybrid workflows.',
     descriptionZh: '负责供应链 AI 应用团队，构建基于 Agent 的系统，缩短从信息到决策到执行的链路——跨系统聚合、自然语言转 SQL、自动补货、人机协作工作流。',
   },
   {
-    role: 'Algorithm Engineer',
-    roleZh: '算法工程师',
-    company: 'Xiaomi — Supply Chain Management',
-    companyZh: '小米 — 供应链管理',
-    period: '2022 — 2024',
-    description: 'Built ML models for demand forecasting, inventory optimization, and logistics routing. Published research on transportation and urban computing.',
-    descriptionZh: '构建需求预测、库存优化和物流路径规划的机器学习模型。发表交通与城市计算方向的研究论文。',
+    role: 'Senior Algorithm Engineer (L7)',
+    roleZh: '高级算法工程师 (L7)',
+    company: 'SenseTime — Smart City & Commercial Business Group',
+    companyZh: '商汤科技 — 智慧城市与商业事业群',
+    period: '2023.11 — 2024.11',
+    description: 'Led vision-based event and defect detection algorithms from surveillance video streams. Built multimodal false-positive filtering service using CLIP voting, reducing false alarms by 20-30%. Fine-tuned domain LLMs and designed Agent workflows for traffic optimization Q&A. Deployed across 10+ cities and 20+ high-speed rail lines.',
+    descriptionZh: '基于监控视频流主导交通事件与零部件缺陷检测算法研发。构建基于多 CLIP 模型 Voting 的多模态误报过滤服务，降低 20~30% 误报率。微调垂域大模型并设计智能体工作流，产品部署于 10+ 城市及 20+ 高铁线路。',
   },
 ];
 
 const education = [
   {
-    degree: 'M.S. Computer Science',
-    degreeZh: '计算机科学硕士',
-    school: 'University of Chinese Academy of Sciences',
-    schoolZh: '中国科学院大学',
-    period: '2019 — 2022',
+    degree: 'Ph.D. Transportation Information Engineering & Control',
+    degreeZh: '工学博士 · 交通信息工程及控制',
+    school: 'Tongji University',
+    schoolZh: '同济大学',
+    period: '2018 — 2023',
+    note: 'GPA Top 10% · Yanke Scholarship · 8 first-author papers',
+    noteZh: 'GPA 前10% · 晏克非奖学金 · 一作发表论文8篇',
   },
   {
-    degree: 'B.E. Transportation Engineering',
-    degreeZh: '交通工程学士',
-    school: 'Southeast University',
-    schoolZh: '东南大学',
-    period: '2015 — 2019',
+    degree: 'Joint Ph.D. Transport & Planning',
+    degreeZh: '联合培养博士 · 交通与规划',
+    school: 'Delft University of Technology',
+    schoolZh: '代尔夫特理工大学',
+    period: '2021 — 2022',
+    note: 'Funded by China Scholarship Council',
+    noteZh: '国家留学基金委资助',
+  },
+  {
+    degree: 'B.E. Transportation Equipment & Control Engineering',
+    degreeZh: '工学学士 · 交通设备与控制工程',
+    school: 'Central South University',
+    schoolZh: '中南大学',
+    period: '2014 — 2018',
+    note: 'GPA Top 20% · Outstanding Graduate',
+    noteZh: 'GPA 前20% · 优秀毕业生',
   },
 ];
 ---
 
-<PageLayout title="About — Yumin Cao" pageTitle="About" pageTitleZh="关于">
-  <section class="about-bio reveal">
+<PageLayout title="About — Yumin Cao" pageTitle="About" pageTitleZh="关于" accent="var(--accent-about)">
+  <section class="about-bio">
     <p class="lang-en">
       I'm Yumin — an engineer who went from studying how cities move to building AI agents that actually do things.
       By day I lead AI applications for Xiaomi's supply chain, where I deploy Agents that handle everything
@@ -73,7 +86,7 @@ const education = [
     <h2 class="about-heading"><T en="Experience" zh="工作经历" /></h2>
     <div class="timeline">
       {experience.map(entry => (
-        <div class="timeline-entry reveal">
+        <div class="timeline-entry">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <h3 class="timeline-role">
@@ -95,7 +108,7 @@ const education = [
     </div>
   </section>
 
-  <section class="about-section reveal">
+  <section class="about-section">
     <h2 class="about-heading"><T en="Education" zh="教育背景" /></h2>
     <div class="education-list">
       {education.map(entry => (
@@ -109,20 +122,28 @@ const education = [
             <span class="lang-zh">{entry.schoolZh}</span>
           </p>
           <time class="edu-period">{entry.period}</time>
+          {entry.note && (
+            <p class="edu-note">
+              <span class="lang-en">{entry.note}</span>
+              <span class="lang-zh">{entry.noteZh}</span>
+            </p>
+          )}
         </div>
       ))}
     </div>
   </section>
 
-  <section class="about-section reveal">
+  <section class="about-section">
     <h2 class="about-heading"><T en="Skills & Tools" zh="技能与工具" /></h2>
     <div class="skills-grid">
       <div class="skill-group">
         <h3 class="skill-group-label"><T en="AI / ML" zh="AI / ML" /></h3>
         <div class="skill-tags">
           <span class="skill-tag">LLM Agents</span>
-          <span class="skill-tag">MCP</span>
-          <span class="skill-tag">Claude Code</span>
+          <span class="skill-tag">RAG</span>
+          <span class="skill-tag">CLIP / Multimodal</span>
+          <span class="skill-tag">MoCo v2</span>
+          <span class="skill-tag">Object Detection</span>
           <span class="skill-tag">Demand Forecasting</span>
           <span class="skill-tag">Optimization</span>
         </div>
@@ -133,15 +154,19 @@ const education = [
           <span class="skill-tag">Python</span>
           <span class="skill-tag">TypeScript</span>
           <span class="skill-tag">SQL</span>
+          <span class="skill-tag">MATLAB</span>
         </div>
       </div>
       <div class="skill-group">
         <h3 class="skill-group-label"><T en="Stack" zh="技术栈" /></h3>
         <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span>
           <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Milvus</span>
+          <span class="skill-tag">Weaviate</span>
           <span class="skill-tag">React</span>
-          <span class="skill-tag">Next.js</span>
-          <span class="skill-tag">Node.js</span>
           <span class="skill-tag">Astro</span>
           <span class="skill-tag">SQLite</span>
           <span class="skill-tag">PostgreSQL</span>
@@ -159,7 +184,7 @@ const education = [
     </div>
   </section>
 
-  <section class="about-section reveal">
+  <section class="about-section">
     <h2 class="about-heading"><T en="Get in Touch" zh="联系我" /></h2>
     <p class="about-contact lang-en">
       Find me on
@@ -291,6 +316,14 @@ const education = [
     color: var(--text-muted);
     display: block;
     margin-top: 4px;
+  }
+
+  .edu-note {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    opacity: 0.75;
+    margin-top: 2px;
   }
 
   .skills-grid {
